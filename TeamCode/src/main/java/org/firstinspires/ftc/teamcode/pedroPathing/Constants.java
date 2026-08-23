@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import com.pedropathing.control.FilteredPIDFCoefficients;
+import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
@@ -23,7 +25,7 @@ public class Constants {
 
     // --- Robot ---
     // TODO: Weigh the robot WITH battery, in kg.
-    private static final double ROBOT_MASS_KG = 10.0;
+    private static final double ROBOT_MASS_KG = 5.52;
 
     // --- Drive motors (names must match RC configuration exactly) ---
     private static final String LEFT_FRONT_NAME  = "Front Left Motor";
@@ -40,8 +42,8 @@ public class Constants {
     private static final double MAX_POWER = 1.0;
 
     // Replace with results from Forward/Lateral Velocity tuners:
-    private static final double X_VELOCITY = 81.34056;   // forward, in/s
-    private static final double Y_VELOCITY = 65.43028;   // lateral, in/s
+    private static final double X_VELOCITY = 65.21887033;   // forward, in/s
+    private static final double Y_VELOCITY = 56.0960228787;   // lateral, in/s
 
     // --- Pinpoint localizer (goBILDA Pinpoint + two 4-bar pods, 48mm wheels) ---
     // RC config: Pinpoint on an I2C bus, named as below.
@@ -50,15 +52,15 @@ public class Constants {
     // TODO: Measure from robot's center of rotation, in inches:
     //   FORWARD_POD_Y: forward (X) pod's Y offset — left of center +, right −
     //   STRAFE_POD_X:  strafe (Y) pod's X offset — toward front +, toward back −
-    private static final double FORWARD_POD_Y = 0;
-    private static final double STRAFE_POD_X  = 0;
+    private static final double FORWARD_POD_Y = 0.4638878529466055;
+    private static final double STRAFE_POD_X  = -1.4042516993725442;
 
     // Verify with localization test: forward must increase X, strafe-left must
     // increase Y. Flip the offending direction if not.
     private static final GoBildaPinpointDriver.EncoderDirection FORWARD_POD_DIR =
             GoBildaPinpointDriver.EncoderDirection.REVERSED;
     private static final GoBildaPinpointDriver.EncoderDirection STRAFE_POD_DIR =
-            GoBildaPinpointDriver.EncoderDirection.FORWARD;
+            GoBildaPinpointDriver.EncoderDirection.REVERSED;
 
     // --- Path constraints (tValue, timeout ms, velocity, translational) ---
     private static final double T_VALUE_CONSTRAINT       = 0.99;
@@ -66,12 +68,35 @@ public class Constants {
     private static final double VELOCITY_CONSTRAINT      = 1;
     private static final double TRANSLATIONAL_CONSTRAINT = 1;
 
+    private static final double FORWARD_ZERO_POWER = -37.3470513045;
+
+    private static final double LATERAL_ZERO_POWER = -50.8852861965;
+
     // ================================================================
     // END OF EDIT SECTION — everything below just wires values together
     // ================================================================
 
     public static FollowerConstants followerConstants = new FollowerConstants()
-            .mass(ROBOT_MASS_KG);
+            .mass(ROBOT_MASS_KG)
+            .forwardZeroPowerAcceleration(FORWARD_ZERO_POWER)
+            .lateralZeroPowerAcceleration(LATERAL_ZERO_POWER)
+            .translationalPIDFCoefficients(new PIDFCoefficients(
+                    0.0525,
+                    0,
+                    0,
+                    0.0245))
+            .headingPIDFCoefficients(new PIDFCoefficients(
+                    0.91,
+                    0,
+                    0.01,
+                    0.01))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(
+                    0.025,
+                    0,
+                    0.00001,
+                    0.6,
+                    0.0245));
+
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(MAX_POWER)
