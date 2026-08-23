@@ -20,9 +20,9 @@ public class Drivetrain {
         backRightMotor = hwMap.get(DcMotor.class, "Back Right Motor");
 
         // Set drive motor directions
-        frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
-        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
 
         // Set whether drive motors are using encoders
