@@ -15,7 +15,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Constants {
-
     // ================================================================
     // EDIT THIS SECTION ONLY — all robot-specific values live here
     //
@@ -25,25 +24,25 @@ public class Constants {
 
     // --- Robot ---
     // TODO: Weigh the robot WITH battery, in kg.
-    private static final double ROBOT_MASS_KG = 5.52;
+    private static final double ROBOT_MASS_KG = 7.48;
 
     // --- Drive motors (names must match RC configuration exactly) ---
-    private static final String LEFT_FRONT_NAME  = "Front Left Motor";
-    private static final String LEFT_REAR_NAME   = "Back Left Motor";
+    private static final String LEFT_FRONT_NAME = "Front Left Motor";
+    private static final String LEFT_REAR_NAME = "Back Left Motor";
     private static final String RIGHT_FRONT_NAME = "Front Right Motor";
-    private static final String RIGHT_REAR_NAME  = "Back Right Motor";
+    private static final String RIGHT_REAR_NAME = "Back Right Motor";
 
     // Verify with the Tuning drive test; flip any wheel that spins the wrong way.
-    private static final DcMotorSimple.Direction LEFT_FRONT_DIR  = DcMotorSimple.Direction.REVERSE;
-    private static final DcMotorSimple.Direction LEFT_REAR_DIR   = DcMotorSimple.Direction.REVERSE;
+    private static final DcMotorSimple.Direction LEFT_FRONT_DIR = DcMotorSimple.Direction.REVERSE;
+    private static final DcMotorSimple.Direction LEFT_REAR_DIR = DcMotorSimple.Direction.REVERSE;
     private static final DcMotorSimple.Direction RIGHT_FRONT_DIR = DcMotorSimple.Direction.FORWARD;
-    private static final DcMotorSimple.Direction RIGHT_REAR_DIR  = DcMotorSimple.Direction.FORWARD;
+    private static final DcMotorSimple.Direction RIGHT_REAR_DIR = DcMotorSimple.Direction.FORWARD;
 
     private static final double MAX_POWER = 1.0;
 
     // Replace with results from Forward/Lateral Velocity tuners:
-    private static final double X_VELOCITY = 65.21887033;   // forward, in/s
-    private static final double Y_VELOCITY = 56.0960228787;   // lateral, in/s
+    private static final double X_VELOCITY = 62.32886271;   // forward, in/s
+    private static final double Y_VELOCITY = 51.85291649;   // lateral, in/s
 
     // --- Pinpoint localizer (goBILDA Pinpoint + two 4-bar pods, 48mm wheels) ---
     // RC config: Pinpoint on an I2C bus, named as below.
@@ -52,25 +51,21 @@ public class Constants {
     // TODO: Measure from robot's center of rotation, in inches:
     //   FORWARD_POD_Y: forward (X) pod's Y offset — left of center +, right −
     //   STRAFE_POD_X:  strafe (Y) pod's X offset — toward front +, toward back −
-    private static final double FORWARD_POD_Y = 0.4638878529466055;
-    private static final double STRAFE_POD_X  = -1.4042516993725442;
+    private static final double FORWARD_POD_Y = -7.6043422428641705;
+    private static final double STRAFE_POD_X = 0.9393324964628462;
 
     // Verify with localization test: forward must increase X, strafe-left must
     // increase Y. Flip the offending direction if not.
     private static final GoBildaPinpointDriver.EncoderDirection FORWARD_POD_DIR =
             GoBildaPinpointDriver.EncoderDirection.REVERSED;
     private static final GoBildaPinpointDriver.EncoderDirection STRAFE_POD_DIR =
-            GoBildaPinpointDriver.EncoderDirection.REVERSED;
+            GoBildaPinpointDriver.EncoderDirection.FORWARD;
 
     // --- Path constraints (tValue, timeout ms, velocity, translational) ---
-    private static final double T_VALUE_CONSTRAINT       = 0.99;
-    private static final double TIMEOUT_CONSTRAINT_MS    = 100;
-    private static final double VELOCITY_CONSTRAINT      = 1;
+    private static final double T_VALUE_CONSTRAINT = 0.99;
+    private static final double TIMEOUT_CONSTRAINT_MS = 100;
+    private static final double VELOCITY_CONSTRAINT = 1;
     private static final double TRANSLATIONAL_CONSTRAINT = 1;
-
-    private static final double FORWARD_ZERO_POWER = -37.3470513045;
-
-    private static final double LATERAL_ZERO_POWER = -50.8852861965;
 
     // ================================================================
     // END OF EDIT SECTION — everything below just wires values together
@@ -78,25 +73,28 @@ public class Constants {
 
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(ROBOT_MASS_KG)
-            .forwardZeroPowerAcceleration(FORWARD_ZERO_POWER)
-            .lateralZeroPowerAcceleration(LATERAL_ZERO_POWER)
-            .translationalPIDFCoefficients(new PIDFCoefficients(
-                    0.0525,
-                    0,
-                    0,
-                    0.0245))
+            .forwardZeroPowerAcceleration(-34.1521929)
+            .lateralZeroPowerAcceleration(-51.1822411)
             .headingPIDFCoefficients(new PIDFCoefficients(
-                    0.91,
-                    0,
-                    0.01,
-                    0.01))
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(
-                    0.025,
-                    0,
-                    0.00001,
                     0.6,
-                    0.0245));
-
+                    0,
+                    0,
+                    0.031
+            ))
+            .translationalPIDFCoefficients(new PIDFCoefficients(
+                    0.075,
+                    0,
+                    0.005,
+                    0.0285
+            ))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+            ))
+            .centripetalScaling(0);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(MAX_POWER)
