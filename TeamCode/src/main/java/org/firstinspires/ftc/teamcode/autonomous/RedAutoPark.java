@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
@@ -15,6 +16,7 @@ import dev.nextftc.ftc.components.BulkReadComponent;
 import static dev.nextftc.extensions.pedro.PedroComponent.follower;
 
 
+@Autonomous (name ="Red Park Auto")
 public class RedAutoPark extends NextFTCOpMode {
     public static Pose startPose = new Pose(100, 8, Math.toRadians(90));
     public static Pose secondPose = new Pose(100, 30, Math.toRadians(90));
