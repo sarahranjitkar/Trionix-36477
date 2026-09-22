@@ -68,8 +68,8 @@ both drive and intake. TeleOp does not require a tuned follower or Pinpoint init
    Run **Mecanum Tuner**, then **Pinpoint Tuner**. Copy their generated configurations into
    the matching declarations in `pedro/Constants.java`, retaining manual brake mode for TeleOp.
 3. Build/deploy again. Use **Tests** to verify localization: push forward/left and rotate;
-   compare displayed motion with physical motion. Before Foresight tuning, follower-dependent
-   tests are absent, but drivetrain/localization tests remain available.
+   compare displayed motion with physical motion. Before Foresight tuning, choose **Pose Test**, **Localization Test**, or **Driving Test**.
+   The menu also lists follower tests, but those require the Foresight configuration first.
 4. Run **Foresight Tuner** in clear field space, following its prompts. Replace
    `public static ForesightConfig foresightConfig = null;` with its complete Java output.
    The imports needed by the generated controllers, matrix, and vector values are included.
@@ -95,6 +95,8 @@ updates the follower, then the Ivy scheduler. Ivy 1.1.1's built-in `follow` comm
 at parametric completion, so `AutoCommands.followAndSettle` extends its completion condition
 to wait for endpoint correction (including Pedro's configured timeout). This is not a guarantee
 that a scoring tolerance was reached: log/measure endpoint error before scoring actions.
+Powered Foresight procedures check Stop/interruption, discard incomplete results, and
+zero drivetrain power in a finally block.
 The command claims the follower as a requirement and stops the drive immediately on interruption.
 The OpMode also cancels commands and directly stops the drive in `finally`; final position
 holding continues after normal route completion until Stop is pressed.
