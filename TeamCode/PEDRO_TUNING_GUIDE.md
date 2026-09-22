@@ -34,7 +34,7 @@ The Driver Station should use the matching SDK 12 release. Disconnect the USB ca
 ## 3. Open AutoTune
 
 1. Connect the laptop to the robot’s Wi-Fi.
-2. Open [AutoTune](http://192.168.43.1:10158).
+2. Open a web browser on your laptop, such as Chrome or Safari. Type `http://192.168.43.1:10158` into the address bar and press Enter. AutoTune is a webpage hosted by the Control Hub; no separate app is needed. The updated robot app must be running.
 3. Look for **Mecanum Tuner**, **Pinpoint Tuner**, **Foresight Tuner**, and **Tests**.
 
 The website controls the tuning sequence. **Treat Continue as permission for the robot to move:** the current tuning software can initialize and start the test automatically.
