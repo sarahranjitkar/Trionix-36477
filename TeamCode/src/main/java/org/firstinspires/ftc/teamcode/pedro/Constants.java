@@ -36,7 +36,7 @@ public final class Constants {
         c.manualBrakeMode.set(true);
     });
 
-    // From main at be0e16d; verify with the Pinpoint tuner before Foresight tuning.
+    // Measured Pinpoint configuration; team confirmed tuning on 2026-09-22.
     // xPodOffset is the forward pod's lateral offset (old forwardPodY).
     // yPodOffset is the strafe pod's longitudinal offset (old strafePodX).
     public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
@@ -50,7 +50,7 @@ public final class Constants {
         c.offsetUnits.set(DistanceUnit.INCH);
     });
 
-    // Replace this declaration with the complete Java output from Foresight AutoTune.
+    // Measured Foresight AutoTune output; replace the full declaration when retuning.
     // Old Pedro 2 PID/braking values are not compatible tuning data.
     public static ForesightConfig foresightConfig = new ForesightConfig(
             c -> {

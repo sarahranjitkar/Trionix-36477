@@ -3,9 +3,9 @@
 Fresh FTC SDK 12.0 / Pedro Pathing 3.0.1 / AutoTune 1.0.1 / Ivy 1.1.1 foundation.
 Java, mecanum drive, goBILDA Pinpoint, two goBILDA four-bar odometry pods.
 
-**Status: software foundation, not robot-validated.** TeleOp and AutoTune are available.
-Autonomous deliberately remains inactive until the robot's Foresight configuration is entered.
-No SDK/device updates or tuning runs have been performed on the robot by this change.
+**Status: tuned upgrade.** The team confirmed successful robot tuning and the upgrade on
+September 22, 2026. Measured Pinpoint offsets and Foresight coefficients are committed in
+`Constants.java`. Revalidate routes after changes to the robot or field setup.
 
 ## Open and build
 
@@ -49,9 +49,9 @@ The shortened paths above are relative to the same teamcode package.
 | Intake | Intake Motor | FORWARD; 0.5 power |
 | Odometry computer | pinpoint | X/forward pod REVERSED; Y/strafe pod FORWARD |
 
-Motor names/directions and pod settings come from repository `main` at `be0e16d`.
-The old forward pod Y offset (-7.6043422428641705 in) becomes `xPodOffset`;
-the old strafe pod X offset (0.9393324964628462 in) becomes `yPodOffset`.
+Motor names/directions were carried forward from repository `main` at `be0e16d`.
+The tuned forward pod offset is `xPodOffset = 7.555415836844857` inches;
+the tuned strafe pod offset is `yPodOffset = -7.442356019508182` inches.
 These describe each pod's perpendicular distance from the rotation center, not interchangeable axes.
 Recheck the offsets and directions on the current chassis. Old mass/PID/velocity/braking settings
 were intentionally not converted into fabricated Pedro 3 tuning values.
@@ -70,8 +70,8 @@ both drive and intake. TeleOp does not require a tuned follower or Pinpoint init
 3. Build/deploy again. Use **Tests** to verify localization: push forward/left and rotate;
    compare displayed motion with physical motion. Before Foresight tuning, choose **Pose Test**, **Localization Test**, or **Driving Test**.
    The menu also lists follower tests, but those require the Foresight configuration first.
-4. Run **Foresight Tuner** in clear field space, following its prompts. Replace
-   `public static ForesightConfig foresightConfig = null;` with its complete Java output.
+4. When retuning, run **Foresight Tuner** in clear field space, following its prompts. Replace
+   the existing `foresightConfig` declaration with its complete Java output.
    The imports needed by the generated controllers, matrix, and vector values are included.
    Do not paste another robot's example coefficients. Build/deploy again.
 5. Use the tuning tests for heading/line/curve checks, then **24 Inch Movement Test**:
@@ -81,7 +81,10 @@ both drive and intake. TeleOp does not require a tuned follower or Pinpoint init
    (100, 8, 90 degrees) -> (100, 30, 90 degrees) -> (47, 8, 90 degrees).
    These are preserved team coordinates, not a new field or scoring validation.
 7. Repeat parking runs and record endpoint error, heading, duration, and battery condition.
-   Merge into main only after TeleOp, intake, localization, autonomous, and Stop checks pass.
+   Validate TeleOp, intake, localization, autonomous, and Stop after significant changes.
+
+The current Line, Curve, and Interpolation test implementations use a fixed 48-inch
+distance, even when a different Distance is entered in AutoTune. Allow clearance accordingly.
 
 `Constants.create()` refuses an untuned follower; autonomous displays an explanation and
 returns without driving. A non-null config enables autonomous, so fill in the complete

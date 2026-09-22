@@ -1,8 +1,8 @@
 # TRIONIX — Pedro 3 Tuning Guide
 
-For the `upgrade/sdk12-pedro3-ivy` project: FTC SDK 12.0, Pedro 3.0.1, AutoTune 1.0.1, and Ivy 1.1.1.
+For TRIONIX robot code: FTC SDK 12.0, Pedro 3.0.1, AutoTune 1.0.1, and Ivy 1.1.1.
 
-Deploy the updated project before tuning. The powered tuners include a Stop-handling correction; the project builds successfully, but physical testing remains pending.
+The team confirmed successful tuning and the upgrade on September 22, 2026. Measured settings are committed in `Constants.java`. Use this guide when retuning; deploy the updated project before starting. The powered Foresight tuners include a Stop-handling correction.
 
 Follow this order:
 
@@ -91,8 +91,8 @@ The forward pod connects to Pinpoint’s X port; the sideways pod connects to it
 1. Open **Tests**.
 2. Explicitly select **Pose Test**. The menu defaults to Line Test, which needs Foresight tuning.
 3. Start with the robot stationary.
-4. After initialization, manually push it forward a measured 24 inches.
-5. Compare the displayed change: X should increase by approximately 24 inches.
+4. Once the test is running, manually push it forward a measured 24 inches.
+5. Watch `Pose` in Driver Station telemetry: X should increase by approximately 24 inches. This test displays live readings rather than generating calibration constants to copy.
 6. Restart the test and push it left 24 inches: Y should increase by approximately 24 inches.
 7. Restart and rotate counterclockwise 90 degrees: heading should change by approximately +1.57 radians.
 8. Return to the original marked position and orientation; the readings should return near their starting values.
@@ -132,13 +132,8 @@ Some tests travel back and forth or repeat at different powers. Reposition only 
 
 1. Open the completed procedure’s **Java** tab.
 2. Copy the entire generated `ForesightConfig` declaration.
-3. Find this line in `Constants.java`:
-
-```java
-public static ForesightConfig foresightConfig = null;
-```
-
-4. Replace that line with the generated declaration.
+3. Find the existing `public static ForesightConfig foresightConfig` declaration in `Constants.java`.
+4. Replace the entire declaration with the generated declaration, including all its coefficients.
 5. Save, build, and deploy.
 
 **AutoTune does not automatically update your Android Studio files.** Each generated configuration must be copied into the code and redeployed.
@@ -159,6 +154,7 @@ Run these progressively:
 | **Red Park Auto** | The full retained parking route |
 
 Follow each test’s movement description. Some tests repeat until stopped.
+The current Line, Curve, and Interpolation tests use a fixed 48-inch distance, ignoring the browser’s Distance entry. Clear enough space for that travel, the robot footprint, and stopping.
 
 Before parking, confirm that its stored field coordinates and robot clearance match your actual setup. Physically place the robot at the intended starting position and orientation—the code assigning a starting pose does not locate the robot automatically.
 
