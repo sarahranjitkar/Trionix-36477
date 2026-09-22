@@ -1,56 +1,37 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
+import com.pedropathing.drivetrain.DrivePowers;
+import com.pedropathing.revhub.drivetrains.Mecanum;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import org.firstinspires.ftc.teamcode.mechanisms.Intake;
+import org.firstinspires.ftc.teamcode.pedro.Constants;
 
-import org.firstinspires.ftc.teamcode.Intake;
-
-import dev.nextftc.core.commands.Command;
-import dev.nextftc.core.components.BindingsComponent;
-import dev.nextftc.core.components.SubsystemComponent;
-import dev.nextftc.ftc.Gamepads;
-import dev.nextftc.ftc.NextFTCOpMode;
-import dev.nextftc.ftc.components.BulkReadComponent;
-import dev.nextftc.hardware.driving.MecanumDriverControlled;
-import dev.nextftc.hardware.impl.MotorEx;
-
-@TeleOp (name = "Driver Controlled")
-public class DriverControlled extends NextFTCOpMode {
-    public DriverControlled() {
-        addComponents(
-                new SubsystemComponent(Intake.INSTANCE),
-                BulkReadComponent.INSTANCE,
-                BindingsComponent.INSTANCE
-        );
-    }
-    private final MotorEx frontLeftMotor = new MotorEx("Front Left Motor").reversed();
-    private final MotorEx frontRightMotor = new MotorEx("Front Right Motor");
-    private final MotorEx backLeftMotor = new MotorEx("Back Left Motor").reversed();
-    private final MotorEx backRightMotor = new MotorEx("Back Right Motor");
-
+@TeleOp(name = "Driver Controlled", group = "TRIONIX")
+public class DriverControlled extends LinearOpMode {
     @Override
-    public void onStartButtonPressed() {
-        //Drivetrain
-        Command driverControlled = new MecanumDriverControlled(
-                frontLeftMotor,
-                frontRightMotor,
-                backLeftMotor,
-                backRightMotor,
-                () -> -1 * (double) gamepad1.left_stick_y, // Java lambda reading standard FTC gamepad values
-                () -> (double) gamepad1.left_stick_x,
-                () -> (double) gamepad1.right_stick_x
-        );
-        driverControlled.schedule();
-
-        //Intake start and stop
-        Gamepads.gamepad1().leftBumper()
-                .whenBecomesTrue(Intake.INSTANCE.start);
-
-        Gamepads.gamepad1().rightBumper()
-                .whenBecomesTrue(Intake.INSTANCE.stop);
-    }
-
-    @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void runOpMode() throws InterruptedException {
+        Mecanum drive = Constants.createDrivetrain(hardwareMap);
+        Intake intake = null;
+        try {
+            intake = new Intake(hardwareMap);
+            telemetry.addLine("Left stick: drive. Right stick: turn.");
+            telemetry.addLine("Left bumper: intake on. Right bumper: intake off.");
+            telemetry.update();
+            waitForStart();
+            boolean previousOn = false;
+            while (opModeIsActive()) {
+                // Pedro uses positive left strafe and counterclockwise rotation.
+                drive.drive(new DrivePowers(-gamepad1.left_stick_y,
+                        -gamepad1.left_stick_x, -gamepad1.right_stick_x), true);
+                if (gamepad1.left_bumper && !previousOn) intake.start();
+                if (gamepad1.right_bumper) intake.stop();
+                previousOn = gamepad1.left_bumper;
+                idle();
+            }
+        } finally {
+            drive.stop();
+            if (intake != null) intake.stop();
+        }
     }
 }

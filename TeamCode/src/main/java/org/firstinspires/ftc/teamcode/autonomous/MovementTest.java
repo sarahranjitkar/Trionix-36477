@@ -6,22 +6,17 @@ import com.pedropathing.ivy.Command;
 import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import static com.pedropathing.api.Paths.line;
-import static com.pedropathing.ivy.groups.Groups.sequential;
 import static org.firstinspires.ftc.teamcode.autonomous.AutoCommands.followAndSettle;
 
-/** Existing route retained as a test route; field placement must be verified. */
-@Autonomous(name = "Red Park Auto", group = "TRIONIX")
-public class RedAutoPark extends PedroAuto {
+/** Short first path: place the robot at the documented pose in clear space. */
+@Autonomous(name = "24 Inch Movement Test", group = "TRIONIX Tests")
+public class MovementTest extends PedroAuto {
     private static final PoseFactory P = PoseFactory.degrees();
-    private final Pose start = P.of(100, 8, 90);
-    private final Pose up = P.of(100, 30, 90);
-    private final Pose park = P.of(47, 8, 90);
+    private final Pose start = P.of(24, 24, 0);
+    private final Pose end = P.of(48, 24, 0);
 
     @Override protected Pose startPose() { return start; }
-
     @Override protected Command routine(Follower follower) {
-        return sequential(
-                followAndSettle(follower, line(start, up).linear(start, up)),
-                followAndSettle(follower, line(up, park).linear(up, park)));
+        return followAndSettle(follower, line(start, end).linear(start, end));
     }
 }
