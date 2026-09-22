@@ -42,8 +42,8 @@ public final class Constants {
     public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
         c.name.set("pinpoint");
         c.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        c.xPodOffset.set(-7.6043422428641705);
-        c.yPodOffset.set(0.9393324964628462);
+        c.xPodOffset.set(7.555415836844857);
+        c.yPodOffset.set(-7.442356019508182);
         c.xPodDirection.set(GoBildaPinpointDriver.EncoderDirection.REVERSED);
         c.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
         c.globalDistanceUnit.set(DistanceUnit.INCH);
@@ -52,7 +52,32 @@ public final class Constants {
 
     // Replace this declaration with the complete Java output from Foresight AutoTune.
     // Old Pedro 2 PID/braking values are not compatible tuning data.
-    public static ForesightConfig foresightConfig = null;
+    public static ForesightConfig foresightConfig = new ForesightConfig(
+            c -> {
+                Controller primaryTranslationalForward = Controller.proportional(0.16544775106525855);
+                Controller secondaryTranslationalForward = Controller.proportional(0.0611285231732847);
+                Controller primaryTranslationalLateral = Controller.proportional(0.2088102974131572);
+                Controller secondaryTranslationalLateral = Controller.proportional(0.07714982538025533);
+
+                c.forwardTranslational.set(Controller.piecewise(secondaryTranslationalForward).put(2.5, primaryTranslationalForward));
+                c.strafeTranslational.set(Controller.piecewise(secondaryTranslationalLateral).put(2.5, primaryTranslationalLateral));
+
+                c.coast.set(Controller.proportionalFeedforward(0.01741282811951234));
+                c.brake.set(Controller.proportionalFeedforward(0.014800903901585487));
+
+                c.headingFeedback.set(Controller.proportional(3.220948077615023));
+                c.headingBrakeCoefficients.set(Vector2D.cartesian(0.049189149525470995, 0.004403334383226634));
+
+                c.linearBrakeCoefficients.set(Matrix.diag(0.06677489745788398, 0.05874895519890594));
+                c.quadraticBrakeCoefficients.set(Matrix.diag(9.084534428333848E-4, 0.0010302045040525656));
+
+                c.maxAchievableForwardVelocity.set(59.85176006543063);
+                c.maxAchievableStrafeVelocity.set(53.01385162079252);
+                c.naturalForwardDeceleration.set(34.05303189795054);
+                c.naturalStrafeDeceleration.set(53.5017844135203);
+            }
+    );
+
 
     public static boolean isTuned() {
         return foresightConfig != null;
