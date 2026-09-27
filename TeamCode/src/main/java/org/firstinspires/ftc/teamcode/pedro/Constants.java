@@ -21,8 +21,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public final class Constants {
     private Constants() { }
 
+    public static final String FLYWHEEL_NAME = "Launcher";
     public static final String INTAKE_NAME = "Intake Motor";
-    public static final double INTAKE_POWER = 0.5;
+    public static final double INTAKE_POWER = 0.75;
 
     public static MecanumConfig drivetrainConfig = new MecanumConfig(c -> {
         c.frontLeftName.set("Front Left Motor");

@@ -16,5 +16,6 @@ public final class Intake {
     }
 
     public void start() { motor.setPower(Constants.INTAKE_POWER); }
+    public void setSpeed(double power) {motor.setPower(power);}
     public void stop() { motor.setPower(0); }
 }
