@@ -34,29 +34,26 @@ public class DriverControlled extends LinearOpMode {
                 if (gamepad1.left_bumper)
                     if (!previousOnIn) {
                         intake.start();
-                        launcher.setTargetRpm(rpm);
                     } else if (previousOnIn){
                         intake.stop();
-                        launcher.stop();
                     }
                     previousOnIn = !previousOnIn;
                 if (gamepad1.right_bumper)
                     if (!previousOnOut) {
                         intake.setSpeed((-1 * Constants.INTAKE_POWER));
-                        launcher.setTargetRpm(rpm);
                     } else if (previousOnOut){
                         intake.stop();
-                        launcher.stop();
                     }
                     previousOnOut = !previousOnOut;
-                /*if (gamepad1.left_trigger > 0.2) launcher.start(LAUNCHER_POWER);
-                if (gamepad1.left_trigger <= 0.2) launcher.stop();*/
+                if (gamepad1.dpad_left) launcher.setTargetRpm(rpm);
+                if (gamepad1.dpad_right) launcher.stop();
                 if (gamepad1.dpad_up) launcher.increaseRpm();
                 if (gamepad1.dpad_down) launcher.decreaseRpm();
                 idle();
                 telemetry.addLine("Left stick: drive. Right stick: turn.");
                 telemetry.addLine("Left bumper: intake on. Right bumper: intake off.");
-                telemetry.addLine("Left Trigger: flywheel. Dpad Up/Down: Increase/Decrease Launcher Power");
+                telemetry.addLine("Dpad Left: Run Launcher. Dpad Right: Stop Launcher.");
+                telemetry.addLine("Dpad Up/Down: Increase/Decrease Launcher Power");
                 launcher.displayTelemetry(telemetry);
                 telemetry.update();
             }
