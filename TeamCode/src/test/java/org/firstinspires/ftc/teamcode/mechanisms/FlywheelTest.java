@@ -93,7 +93,7 @@ public class FlywheelTest {
         hardware.current = 1.75;
         flywheel.displayTelemetry(telemetry);
         assertEquals(3000, (double) readings.get("Flywheel current RPM")[0], 0);
-        assertEquals(1.75, (double) readings.get("Flywheel current (A)")[0], 0);
+        assertEquals(1.75, (double) readings.get("Launcher current (A)")[0], 0);
         assertEquals(0, (double) readings.get("Flywheel error RPM")[0], 0);
         assertEquals(CurrentUnit.AMPS, hardware.currentUnit);
     }

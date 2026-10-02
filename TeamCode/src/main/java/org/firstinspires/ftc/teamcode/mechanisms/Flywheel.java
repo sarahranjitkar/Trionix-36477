@@ -108,7 +108,7 @@ public final class Flywheel {
         telemetry.addData("Flywheel target RPM", "%.0f", targetRpm);
         telemetry.addData("Flywheel current RPM", "%.0f", rpm);
         telemetry.addData("Flywheel error RPM", "%.0f", targetRpm - rpm);
-        telemetry.addData("Flywheel current (A)", "%.2f", getCurrentAmps());
+        telemetry.addData("Launcher current (A)", "%.2f", getCurrentAmps());
     }
 
     /** Removes motor power. FLOAT lets the launcher coast; it does not stop instantly. */
