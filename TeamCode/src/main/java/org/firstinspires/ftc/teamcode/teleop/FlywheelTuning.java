@@ -12,6 +12,10 @@ public class FlywheelTuning extends LinearOpMode {
     private static final String[] GAIN_NAMES = {"P", "I", "D", "F"};
     private static final double[] GAIN_STEPS = {0.01, 0.1, 1.0};
 
+    /*P = 4.8,
+    I = 0.32,
+    D = 0.2
+    F = 5.0*/
     @Override
     public void runOpMode() throws InterruptedException {
         Flywheel flywheel = new Flywheel(hardwareMap);

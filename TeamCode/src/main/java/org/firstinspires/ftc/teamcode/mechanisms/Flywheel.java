@@ -20,9 +20,13 @@ public final class Flywheel {
     public static final double MAX_RPM = 6000.0;
     public static final double RPM_STEP = 100.0;
 
+    /*P = 4.8,
+    I = 0.32,
+    D = 0.2
+    F = 5.0*/
     // Keep Hub defaults until tuned. Replace null with the tuner's displayed
-    // new PIDFCoefficients(p, i, d, f) to reapply the result on every initialization.
-    public static final PIDFCoefficients TUNED_PIDF = null;
+    //new PIDFCoefficients(4.8, 0.32, 0.2, 5.0);
+    public static final PIDFCoefficients TUNED_PIDF = new PIDFCoefficients(4.8, 0.32, 0.2, 5.0);
 
     private final DcMotorEx motor;
     private final double ticksPerRev;
