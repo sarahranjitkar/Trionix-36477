@@ -12,8 +12,8 @@ public final class ServoGate {
 
     // Run Servo Gate Calibration, then replace BOTH values with measured positions.
     // NaN deliberately prevents a match OpMode from using uncalibrated endpoints.
-    public static final double CLOSED_POSITION = Double.NaN;
-    public static final double OPEN_POSITION = Double.NaN;
+    public static final double CLOSED_POSITION = 0.44;
+    public static final double OPEN_POSITION = 0.65;
 
     private final Servo servo;
     private final double closedPosition;
