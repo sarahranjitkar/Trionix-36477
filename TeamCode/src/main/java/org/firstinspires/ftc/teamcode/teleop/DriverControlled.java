@@ -32,6 +32,7 @@ public class DriverControlled extends LinearOpMode {
             Gamepad current = new Gamepad();
             current.copy(gamepad1);
             DriverInputs inputs = new DriverInputs(current);
+            long nextTelemetryNanos = 0;
             // A held through START must be released and pressed again to open.
             boolean previousGateOpen = current.a;
             while (opModeIsActive()) {
@@ -47,14 +48,19 @@ public class DriverControlled extends LinearOpMode {
                 if (inputs.launcherRunning) launcher.setTargetRpm(inputs.selectedRpm);
                 else launcher.stop();
                 idle();
-                displayControls();
-                telemetry.addData("Intake", inputs.intakeDirection == 0 ? "OFF"
-                        : inputs.intakeDirection > 0 ? "FORWARD" : "REVERSE");
-                telemetry.addData("Launcher selected RPM", "%.0f", inputs.selectedRpm);
-                gate.displayTelemetry(telemetry);
-                intake.displayTelemetry(telemetry);
-                launcher.displayTelemetry(telemetry);
-                telemetry.update();
+                // Throttle the hardware reads themselves, not just DS transmission.
+                long now = System.nanoTime();
+                if (now >= nextTelemetryNanos) {
+                    displayControls();
+                    telemetry.addData("Intake", inputs.intakeDirection == 0 ? "OFF"
+                            : inputs.intakeDirection > 0 ? "FORWARD" : "REVERSE");
+                    telemetry.addData("Launcher selected RPM", "%.0f", inputs.selectedRpm);
+                    gate.displayTelemetry(telemetry);
+                    intake.displayTelemetry(telemetry);
+                    launcher.displayTelemetry(telemetry);
+                    telemetry.update();
+                    nextTelemetryNanos = now + 250_000_000L;
+                }
             }
         } finally {
             try {
