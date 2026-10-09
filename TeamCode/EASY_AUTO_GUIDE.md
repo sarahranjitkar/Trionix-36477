@@ -7,7 +7,7 @@ Driver Controlled settings are changed.
 ## Coordinate contract
 
 - Intake is the front. Localization must report that direction as robot +X.
-- `up` / `forward`, `down` / `backward`, `left`, and `right` are relative to the
+- `moveForward` / `up` / `forward`, `moveBackward` / `down` / `backward`, `left`, and `right` are relative to the
   robot's heading **when that command starts**, and keep that heading.
 - East = field +X = 0°, North = field +Y = 90°, West = 180°, South = 270°.
   These are labels on the Pedro field map, not magnetic compass directions.
@@ -40,12 +40,12 @@ public class MyEasyAuto extends PedroAuto {
     @Override protected Command routine(Follower follower) {
         EasyAuto robot = new EasyAuto(follower);
         return robot.sequence(
-                robot.up(12),
+                robot.moveForward(12),
                 robot.turnNorth(),
                 robot.left(6), // now moves toward field West
                 robot.pause(0.5),
                 robot.turnByDegrees(-45),
-                robot.down(6));
+                robot.moveBackward(6));
     }
 }
 ```
@@ -60,8 +60,8 @@ and call `robot.stop()` on exit. Do not use blocking sleeps during movement.
 
 | Method | Behavior |
 | --- | --- |
-| `up(inches)`, `forward(inches)` | Intake-first movement |
-| `down(inches)`, `backward(inches)` | Backward movement |
+| `moveForward(inches)`, `up(inches)`, `forward(inches)` | Toward intake, regardless of field heading |
+| `moveBackward(inches)`, `down(inches)`, `backward(inches)` | Away from intake, regardless of field heading |
 | `left(inches)`, `right(inches)` | Strafe relative to robot |
 | `turnNorth/South/West/East()` | Absolute field heading |
 | `turnToDegrees(degrees)` | Any absolute heading |

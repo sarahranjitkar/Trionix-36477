@@ -35,6 +35,11 @@ public final class EasyAuto {
         this.timeout = timeoutSeconds;
     }
 
+    /** Move toward the intake, regardless of field heading; keep the current heading. */
+    public Command moveForward(double inches) { return forward(inches); }
+    /** Move away from the intake, regardless of field heading; keep the current heading. */
+    public Command moveBackward(double inches) { return backward(inches); }
+
     public Command up(double inches) { return forward(inches); }
     public Command down(double inches) { return backward(inches); }
     public Command forward(double inches) { distance(inches); return moveRobot(inches, 0); }

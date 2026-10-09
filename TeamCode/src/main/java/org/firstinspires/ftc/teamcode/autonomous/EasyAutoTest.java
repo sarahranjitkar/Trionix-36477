@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.pedro.Constants;
 /** Interactive single-action test; START alone never moves the robot. */
 @Autonomous(name = "Easy Auto Utility Test", group = "TRIONIX Tests")
 public class EasyAutoTest extends LinearOpMode {
-    private static final String[] ACTIONS = {"Up / forward", "Down / backward", "Left", "Right",
+    private static final String[] ACTIONS = {"Move forward (toward intake)", "Move backward (away from intake)", "Left", "Right",
             "Turn North (90)", "Turn South (270)", "Turn West (180)", "Turn East (0)",
             "Turn CCW by angle", "Turn CW by angle", "Field East", "Field North",
             "Go to start (72,72)", "Pause 1 second"};
@@ -89,8 +89,8 @@ public class EasyAutoTest extends LinearOpMode {
 
     private Command action(EasyAuto a, int selected, double inches, double angle) {
         switch (selected) {
-            case 0: return a.up(inches);
-            case 1: return a.down(inches);
+            case 0: return a.moveForward(inches);
+            case 1: return a.moveBackward(inches);
             case 2: return a.left(inches);
             case 3: return a.right(inches);
             case 4: return a.turnNorth();

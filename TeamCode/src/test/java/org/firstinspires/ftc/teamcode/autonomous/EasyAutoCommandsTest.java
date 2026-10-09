@@ -37,6 +37,16 @@ public class EasyAutoCommandsTest {
         Scheduler.schedule(auto.right(6)); target(26, 30, 90);
         Scheduler.schedule(auto.down(6)); target(20, 24, 90);
     }
+    @Test public void explicitForwardBackwardFollowIntakeAtAnyHeading() {
+        for (double degrees : new double[]{0, 37, 90, 180, 270, 350}) {
+            at(20, 30, degrees);
+            double a = Math.toRadians(degrees);
+            Scheduler.schedule(auto.moveForward(6));
+            target(20 + 6*Math.cos(a), 30 + 6*Math.sin(a), degrees);
+            Scheduler.schedule(auto.moveBackward(6));
+            target(20 - 6*Math.cos(a), 30 - 6*Math.sin(a), degrees);
+        }
+    }
     @Test public void directionsWorkAtAllCardinalHeadings() {
         for (int degrees = 0; degrees < 360; degrees += 90) {
             at(20, 30, degrees);
